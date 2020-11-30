@@ -13,6 +13,8 @@ jobs:
         with:
           ref: 'main'
       - uses: actions/checkout@v2
+        with:
+          clean: false
       # check if anything has changed, which is not already in main
       - name: has-changed
         # grep return == 0 => gibt changes (steps.has_changed.outcome=success),

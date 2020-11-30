@@ -7,20 +7,22 @@ on:
       - '!tfmodules/**'     # Schließt den modules Ordner aus - da kann und soll kein Plan durchgeführt werden
 
 # Problem: jeder Job läuft durch die Matrix wo anders, ein default kann nicht für alle gesetzt sein
-# Lösung ist der "hack" über die gleichnamige env-var, siehe unten
+# Lösung ist der "hack" über die gleichnamige env-var, vgl https://github.community/t/use-working-directory-for-entire-job/16747/2
 #defaults:
 #  run:
 #    working-directory: "terraform/demo"
 
 env:
+  # Problem: "nonlive" ist Abhängig vom Pfad in dem später gearbeitet wird
+  # Workaround: die Rolle heißt immer gleich, e.g. "githubactions_ron"
+  TF_VAR_assume_role: "nonlive-githubactions"
   AWS_REGION: "eu-central-1"
-  TF_VAR_assume_role: "nonlive-githubactions" # Problem: "nonlive" ist Abhängig vom Pfad in dem später gearbeitet wird
 
 jobs:
   build:
     strategy:
       fail-fast: false
-      matrix:  # sorgt für ein ähnliches Konstrukt wie for_each
+      matrix:  # sorgt für ein ähnliches Konstrukt wie for_each. Eben eine Matrix.
         service_name: ["service1", "service2", "infra"]
         stage: ["demo"]
     name: Terraform
@@ -36,7 +38,7 @@ jobs:
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
-        working-directory: ${{ env.working-directory }}  # hässlicher Workaround, vgl https://github.community/t/use-working-directory-for-entire-job/16747/2
+        working-directory: ${{ env.working-directory }}
         continue-on-error: true
 
       - name: Terraform Init

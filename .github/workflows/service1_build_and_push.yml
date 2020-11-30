@@ -9,12 +9,13 @@ jobs:
   has-changed:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       # check if anything has changed, which is not already in main
       - name: has-changed
         # grep return == 0 => gibt changes (steps.has_changed.outcome=success),
         # grep return == 1 => keine changes (steps.has_changed.outcome=failure)
         run: |
-          git diff --name-only `git rev-parse main` HEAD} | grep ${{ env.SERVICE_NAME }}
+          git diff --name-only `git rev-parse main` HEAD | grep ${{ env.SERVICE_NAME }}
           exit $?
         continue-on-error: true
 
@@ -31,6 +32,7 @@ jobs:
     needs: has-changed
     if: needs.has-changed.outputs.image_tag != 'prod'
     steps:
+      - uses: actions/checkout@v2
       - name: Build and push on change
         run: |
           echo "build and push with new tag '${{ github.sha }}.'"
@@ -39,5 +41,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [has-changed, build-and-push]
     steps:
+      - uses: actions/checkout@v2
       - name: Retag respective image
         run: echo "do some tagging - from ${{ needs.has-changed.outputs.image_tag }} to test."

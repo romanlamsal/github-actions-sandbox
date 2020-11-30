@@ -10,19 +10,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          - ref: 'main'
+      - uses: actions/checkout@v2
       # check if anything has changed, which is not already in main
       - name: has-changed
         # grep return == 0 => gibt changes (steps.has_changed.outcome=success),
         # grep return == 1 => keine changes (steps.has_changed.outcome=failure)
-        run: |
-          git diff --name-only `git rev-parse main` HEAD | grep ${{ env.SERVICE_NAME }}
-          exit $?
+        run: git diff --name-only `git rev-parse main` HEAD | grep ${{ env.SERVICE_NAME }}
         continue-on-error: true
 
-      - # TODO: prod as default "prod" tag?
-        run: echo "::set-output name=image_tag::prod"
+      # TODO: prod as default "prod" tag?
+      - run: echo "::set-output name=image_tag::prod"
         if: steps.has-changed.outcome == 'failure'
-
 
       - run: echo "::set-output name=image_tag::${{ github.sha }}"
         if: steps.has-changed.outcome == 'success'

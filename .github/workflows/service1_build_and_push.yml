@@ -19,15 +19,17 @@ jobs:
       - name: has-changed
         # grep return == 0 => gibt changes (steps.has_changed.outcome=success),
         # grep return == 1 => keine changes (steps.has_changed.outcome=failure)
-        run: git diff --name-only `git rev-parse main` HEAD | grep ${{ env.SERVICE_NAME }}
+        run: git diff --name-only `git rev-parse origin/main` HEAD | grep ${{ env.SERVICE_NAME }}
         continue-on-error: true
 
       # TODO: prod as default "prod" tag?
-      - run: echo "::set-output name=image_tag::prod"
+      - name: set-tag-to-prod
         if: steps.has-changed.outcome == 'failure'
+        run: echo "::set-output name=image_tag::prod"
 
-      - run: echo "::set-output name=image_tag::${{ github.sha }}"
+      - name: set-tag-to-sha
         if: steps.has-changed.outcome == 'success'
+        run: echo "::set-output name=image_tag::${{ github.sha }}"
 
   build-and-push:
     runs-on: ubuntu-latest

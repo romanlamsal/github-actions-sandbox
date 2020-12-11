@@ -38,7 +38,7 @@ jobs:
         run: |
           echo "build and push with new tag '${{ needs.has-changed.outputs.image_tag }}'."
 
-  tag_for_test:
+  tag-for-test:
     runs-on: ubuntu-latest
     needs: [ has-changed, build-and-push ]
     steps:

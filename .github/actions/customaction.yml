@@ -1,0 +1,14 @@
+name: 'Retag image'
+description: ''
+inputs:
+  source-image:  # id of input
+    description: 'Source image'
+    required: true
+  target-image:  # id of input
+    description: 'Target image'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - run: echo Retagging image from ${{ inputs.source-image }}...
+    - run: echo ... and tagging image to ${{ inputs.target-image }}.

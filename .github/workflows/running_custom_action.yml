@@ -1,0 +1,11 @@
+name: running-custom-action
+
+on: push
+
+jobs:
+  run-custom-action:
+    steps:
+      - uses: actions/customaction@v1
+        with:
+          source-image: "bla.url.com/image:test"
+          target-image: "bla.url.com/image:main"

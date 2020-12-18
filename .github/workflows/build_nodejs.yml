@@ -1,0 +1,18 @@
+name: build-nodejs
+
+on:
+  repository_dispatch:
+    types: [build-nodejs]
+
+jobs:
+  build-nodejs:
+    runs-on: ubuntu-latest
+    env:
+      service_name: github.event.service_name
+      tag: github.event.tag
+    steps:
+      - uses: actions/checkout@v1
+      - run: echo "$service_name - install node dependencies"
+      - run: echo "$service_name - compile javascript"
+      - run: echo "$service_name - build docker image with tag $tag"
+      - run: echo "$service_name - push docker image"

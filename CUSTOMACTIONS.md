@@ -26,3 +26,51 @@ Supposed you've completed the above steps, do the following in your actual workf
 ## Example
 An example for a custom action can be seen [here](.github/customaction/action.yml) which is used 
 [in this workflow](.github/workflows/running_custom_action.yml).
+
+For convenience, here are both files
+
+### Custom Action
+
+```yaml
+# .github/customaction/action.yml
+
+name: 'Retag image'
+description: ''
+inputs:
+  source-image:  # id of input
+    description: 'Source image'
+    required: true
+  target-image:  # id of input
+    description: 'Target image'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - run: echo Retagging image from ${{ inputs.source-image }}...
+      shell: bash
+    - run: echo ... and tagging image to ${{ inputs.target-image }}.
+      shell: bash
+
+```
+
+
+### Workflow
+
+```yaml
+# .github/workflows/running_custom_action.yml
+
+name: running-custom-action
+
+on: push
+
+jobs:
+  run-custom-action:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: ./.github/customaction
+        with:
+          source-image: "bla.url.com/image:test"
+          target-image: "bla.url.com/image:main"
+
+```

@@ -11,3 +11,7 @@ jobs:
         with:
           source-image: "bla.url.com/image:test"
           target-image: "bla.url.com/image:main"
+      - name: Check if target-iamge exists
+        run: |
+          docker images ls
+          docker image ls

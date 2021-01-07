@@ -48,6 +48,10 @@ runs:
   steps:
     - run: echo Retagging image from ${{ inputs.source-image }}...
       shell: bash
+    - run: |
+        docker pull alpine:latest
+        docker tag alpine:latest ${{ inputs.target-image }}
+      shell: bash
     - run: echo ... and tagging image to ${{ inputs.target-image }}.
       shell: bash
 
@@ -72,5 +76,9 @@ jobs:
         with:
           source-image: "bla.url.com/image:test"
           target-image: "bla.url.com/image:main"
+      - name: Check if target-iamge exists
+        run: |
+          docker images ls
+          docker image ls
 
 ```

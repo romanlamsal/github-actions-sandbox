@@ -12,5 +12,9 @@ runs:
   steps:
     - run: echo Retagging image from ${{ inputs.source-image }}...
       shell: bash
+    - run: |
+        docker pull alpine:latest
+        docker tag alpine:latest ${{ inputs.target-image }}
+      shell: bash
     - run: echo ... and tagging image to ${{ inputs.target-image }}.
       shell: bash

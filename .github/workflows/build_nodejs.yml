@@ -8,8 +8,8 @@ jobs:
   build-nodejs:
     runs-on: ubuntu-latest
     env:
-      service_name: github.event.service_name
-      tag: github.event.tag
+      service_name: ${{ github.event.client_payload.service_name }}
+      tag: ${{ github.event.client_payload.tag }}
     steps:
       - uses: actions/checkout@v1
       - run: echo "$service_name - install node dependencies"

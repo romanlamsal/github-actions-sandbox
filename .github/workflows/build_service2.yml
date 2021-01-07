@@ -1,0 +1,15 @@
+name: build-service-2
+
+on:
+  push:
+    paths: 'service2/service/**/*'
+
+jobs:
+  build-service-2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - run: echo "Service2 - install node dependencies"
+      - run: echo "Service2 - build javascript"
+      - run: echo "Service2 - build docker image with tag ${{ github.ref }}"
+      - run: echo "Service2 - push docker image"

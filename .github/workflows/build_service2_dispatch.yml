@@ -1,0 +1,16 @@
+name: build-service-2-dispatch
+
+on:
+  push:
+    paths: 'service2/service/**/*'
+
+jobs:
+  build-service-2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger build via dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.PAT }}
+          event-type: build-nodejs
+          client-payload: '{"tag": "${{ github.ref }}", "service_name": "service1"}'

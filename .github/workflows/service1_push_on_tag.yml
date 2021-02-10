@@ -1,0 +1,14 @@
+name: service1_push_on_tag
+
+on:
+  push:
+    paths:
+      - service1/**/*
+    tags:
+      - triggered
+
+jobs:
+  build-nodejs:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "service1 - run by tagging."

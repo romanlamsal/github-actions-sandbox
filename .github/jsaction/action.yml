@@ -1,0 +1,14 @@
+name: 'Do some main and post action'
+description: ''
+inputs:
+  someinput:  # id of input
+    description: 'some random input'
+    required: true
+outputs:
+  anotheroutput:  # id of output
+    description: 'another random output'
+runs:
+  using: "node12"
+  main: main.js
+  post: post.js
+  pre: pre.js

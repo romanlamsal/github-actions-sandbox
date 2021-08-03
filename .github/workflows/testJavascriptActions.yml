@@ -11,10 +11,9 @@ jobs:
       - uses: ./.github/jsaction
         id: jsaction
         with:
-          someinput: >
-            some input 
-            will be some input
-            .
+          someinput: >-
+            some input
+            will be some input.
       - run: |
           echo ${{ steps.jsaction.outputs.anotheroutput }}
           echo "IS_SUCCESS=DEFINATELY" >> $GITHUB_ENV
